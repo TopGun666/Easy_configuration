@@ -43,21 +43,22 @@ git clone https://github.com/uzh-rpg/fast.git
 git clone https://github.com/ceres-solver/ceres-solver.git
 git clone https://github.com/RainerKuemmerle/g2o.git
 
-echo "install ceres-solver"
-cd ~/code/lib_tools/ceres-solver
-mkdir build
-cd ./build
-cmake ..
-make 
-echo $pswd | sudo -S make install
-
 echo "install eigen"
+cd ~/code/lib_tools/
 wget -c http://bitbucket.org/eigen/eigen/get/3.3.4.tar.gz
 tar -xvf 3.3.4.tar.gz
 cd eigen-eigen-5a0156e40feb
 mkdir build
 cd ./build
 cmake -DEIGEN_TEST_CXX11=1 -DEIGEN_TEST_CUDA=1 ..
+make 
+echo $pswd | sudo -S make install
+
+echo "install ceres-solver"
+cd ~/code/lib_tools/ceres-solver
+mkdir build
+cd ./build
+cmake ..
 make 
 echo $pswd | sudo -S make install
 
@@ -95,7 +96,7 @@ echo $pswd | sudo -S make install
 
 #install sogoupinyin input method
 echo "#install sogoupinyin input method"
-echo $pswd | sudo -S dpkg -i ~/code/configuration/Thirdparty/sogoupinyin_2.2.0.0102_amd64.deb
+echo $pswd | sudo -S dpkg -i ~/code/Easy_configuration/Thirdparty/sogoupinyin_2.2.0.0102_amd64.deb
 
 cd ~/code/
 mkdir learning
