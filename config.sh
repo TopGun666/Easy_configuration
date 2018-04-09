@@ -3,144 +3,111 @@
 echo ""
 echo "#######################################################################"
 echo "#                          Start configuration!                       #"
-echo "#                                 V 1.0.0                             #"
+echo "#                                 V 2.0.0                             #"
 echo "#                                 by heyu                             #"
 echo "#######################################################################"
 echo ""
 
-
-# update systemcd 
-echo "#update system"
-cd ~
-echo passwords | sudo -S command
-sudo apt update -y
-echo passwords | sudo -S command
-sudo apt dist-upgrade -y
+read -p "Input your passwords for root:" -s pswd
+echo $pswd | sudo -S apt update -y
+echo $pawd | sudo -S apt dist-upgrade -y
 
 #install dpkg
-echo "#install dpkg"
-echo passwords | sudo -S command
-sudo apt install dpkg-dev -y
+echo $pawd | sudo -S apt install -y dpkg dpkg-dev
+
+# install some tools:
+echo "install git"
+echo $pawd | sudo -S apt install git -y
+
 #install nvidia-384
 echo "#install nvidia-384"
 echo passwords | sudo -S command
-sudo apt install nvidia-384-dev -y
+echo $pawd | sudo -S apt install nvidia-384-dev -y
 
-# install some tools:
-echo "#install git"
-echo passwords | sudo -S command
-sudo apt install git -y
-
-echo "#install cmake"
-echo passwords | sudo -S command
-sudo apt install cmake -y
+#install opencv dependency
+echo "install opencv dependency"
+echo $pawd | sudo -S apt install -y build-essential checkinstall cmake yasm libjpeg-dev libjasper-dev libavcodec-dev libavformat-dev libswscale-dev libdc1394-22-dev libxine2-dev libgstreamer0.10-dev libgstreamer-plugins-base0.10-dev libv4l-dev python-dev python-numpy libtbb-dev libqt4-dev libgtk2.0-dev libfaac-dev libmp3lame-dev libopencore-amrnb-dev libopencore-amrwb-dev libtheora-dev libvorbis-dev libxvidcore-dev x264 v4l-utils gstreamer0.10-ffmpeg gstreamer1.0-libav 
 
 echo "#install some necessary tools"
-echo passwords | sudo -S command
-sudo apt install libopencv-dev build-essential checkinstall cmake pkg-config yasm libjpeg-dev libjasper-dev libavcodec-dev libavformat-dev libswscale-dev libdc1394-22-dev libxine2-dev libgstreamer0.10-dev libgstreamer-plugins-base0.10-dev libv4l-dev python-dev python-numpy libtbb-dev libqt4-dev libgtk2.0-dev libfaac-dev libmp3lame-dev libopencore-amrnb-dev libopencore-amrwb-dev libtheora-dev libvorbis-dev libxvidcore-dev x264 v4l-utils gstreamer0.10-ffmpeg gstreamer1.0-libav -y
-
-echo "#install libboost"
-echo passwords | sudo -S command
-sudo apt install libboost-all-dev -y
-
-echo "#install qtcreator"
-echo passwords | sudo -S command
-sudo apt install qtcreator -y
-
-echo "#install fcitx"
-echo passwords | sudo -S command
-sudo apt install fcitx -y
-sudo apt -f install -y
-
-echo "#install chromium"
-echo passwords | sudo -S command
-sudo apt install chromium-browser -y
-
-echo "#install libgoogle-glog"
-echo passwords | sudo -S command
-sudo apt install libgoogle-glog-dev -y
-
-echo "#install eigen3"
-echo passwords | sudo -S command
-sudo apt install libeigen3-dev -y
-
-echo "#install suitesparse"
-echo passwords | sudo -S command
-sudo apt install libsuitesparse-dev -y
+echo $pswd | sudo -S apt install -y libboost-all-dev qtcreator fcitx chromium-browser libgoogle-glog-dev libsuitesparse-dev libxmu-dev 
 
 echo "#install python-pip"
-echo passwords | sudo -S command
-sudo apt install python-pip -y
+sudo apt install -y python-pip
 
-echo "#install numpy shadowsocks scipy"
-echo passwords | sudo -S command
-sudo pip install numpy
-echo passwords | sudo -S command
-sudo pip install shadowsocks
-echo passwords | sudo -S command
-sudo pip install scipy
-sudo pip install --upgrade pip
-#exit root permissions
-#echo "#exit root permissions"
-#exit
-
-echo "#install some necessary library"
-mkdir code
-cd code
+mkdir ~/code
+cd ~/code
 mkdir lib_tools
 cd lib_tools
 git clone https://github.com/opencv/opencv.git 
-git clone https://github.com/TopGun666/fast.git
-git clone https://github.com/strasdat/Sophus.git
+git clone https://github.com/uzh-rpg/fast.git
+git clone https://github.com/ceres-solver/ceres-solver.git
 git clone https://github.com/RainerKuemmerle/g2o.git
 
-echo "#install OpenCV3"
+echo "install ceres-solver"
+cd ~/code/lib_tools/ceres-solver
+mkdir build
+cd ./build
+cmake ..
+make 
+echo $pswd | sudo -S make install
+
+echo "install eigen"
+wget -c http://bitbucket.org/eigen/eigen/get/3.3.4.tar.gz
+tar -xvf 3.3.4.tar.gz
+cd eigen-eigen-5a0156e40feb
+mkdir build
+cd ./build
+cmake -DEIGEN_TEST_CXX11=1 -DEIGEN_TEST_CUDA=1 ..
+make 
+echo $pswd | sudo -S make install
+
+echo "install OpenCV3"
 cd ~/code/lib_tools/opencv
 mkdir build
 cd build
-cmake -D CMAKE_BUILD_TYPE=RELEASE -D CMAKE_INSTALL_PREFIX=/usr/local -D INSTALL_PYTHON_EXAMPLES=ON -D INSTALL_C_EXAMPLES=OFF -D WITH_CUDA=ON -D WITH_TBB=ON -D WITH_V4L=ON-D WITH_GTK=ON -D WITH_OPENGL=ON -D BUILD_EXAMPLES=ON ..
-make -j8
-echo passwords | sudo -S command 
-sudo make install
+cmake -DWITH_QT=ON \
+-DCMAKE_BUILD_TYPE=RELEASE \
+-DCMAKE_INSTALL_PREFIX=/usr/local \
+-DINSTALL_C_EXAMPLES=ON \
+-DWITH_CUDA=ON \    # using CUDA  
+-DWITH_TBB=ON \
+-D WITH_V4L=ON \
+-D WITH_OPENGL=ON ..
+make -j
+echo $pswd | sudo -S make install
 
-echo "#install fast"
+echo "install fast"
 cd ~/code/lib_tools/fast
 mkdir build
 cd build
 cmake ..
-make -j8
-echo passwords | sudo -S command 
-sudo make install
+make -j
+echo $pswd | sudo -S make install
 
-echo "#install Sophus"
-cd ~/code/lib_tools/Sophus
-mkdir build
-cd build
-cmake ..
-make -j8
-echo passwords | sudo -S command 
-sudo make install
 
-echo "#install g2o"
+echo "install g2o"
 cd ~/code/lib_tools/g2o
 mkdir build
 cd build
 cmake ..
-make -j8
-echo passwords | sudo -S command 
-sudo make install
+make -j
+echo $pswd | sudo -S make install
 
 #install sogoupinyin input method
 echo "#install sogoupinyin input method"
-echo passwords | sudo -S command
-sudo dpkg -i ~/code/configuration/Thirdparty/sogoupinyin_2.2.0.0102_amd64.deb
+echo $pswd | sudo -S dpkg -i ~/code/configuration/Thirdparty/sogoupinyin_2.2.0.0102_amd64.deb
+
 cd ~/code/
 mkdir learning
 mkdir work
 mkdir ex
 
-#reboot your computer
-echo passwords | sudo -S command 
-sudo reboot
+echo ""
+echo "#######################################################################"
+echo "#                              Congratulations!                       #"
+echo "#             Your Ubuntu 16.04 has been configurated for VSLAM.      #"
+echo "#                               by heyu.nwpu                          #"
+echo "#######################################################################"
+echo ""
 
 
