@@ -30,6 +30,7 @@ echo $pawd | sudo -S apt install -y build-essential checkinstall cmake yasm libj
 
 echo "#install some necessary tools"
 echo $pswd | sudo -S apt install -y libboost-all-dev qtcreator fcitx chromium-browser libgoogle-glog-dev libsuitesparse-dev libxmu-dev 
+sudo apt -f install
 
 echo "#install python-pip"
 sudo apt install -y python-pip
