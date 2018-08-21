@@ -10,23 +10,23 @@ echo ""
 
 read -p "Input your passwords for root:" -s pswd
 echo $pswd | sudo -S apt update -y
-echo $pawd | sudo -S apt dist-upgrade -y
+echo $pswd | sudo -S apt dist-upgrade -y
 
 #install dpkg
-echo $pawd | sudo -S apt install -y dpkg dpkg-dev
+echo $pswd | sudo -S apt install -y dpkg dpkg-dev
 
 # install some tools:
 echo "install git"
-echo $pawd | sudo -S apt install git -y
+echo $pswd | sudo -S apt install git -y
 
 #install nvidia-384
 echo "#install nvidia-384"
 echo passwords | sudo -S command
-echo $pawd | sudo -S apt install nvidia-384-dev -y
+echo $pswd | sudo -S apt install nvidia-384-dev -y
 
 #install opencv dependency
 echo "install opencv dependency"
-echo $pawd | sudo -S apt install -y build-essential checkinstall cmake yasm libjpeg-dev libjasper-dev libavcodec-dev libavformat-dev libswscale-dev libdc1394-22-dev libxine2-dev libgstreamer0.10-dev libgstreamer-plugins-base0.10-dev libv4l-dev python-dev python-numpy libtbb-dev libqt4-dev libgtk2.0-dev libfaac-dev libmp3lame-dev libopencore-amrnb-dev libopencore-amrwb-dev libtheora-dev libvorbis-dev libxvidcore-dev x264 v4l-utils gstreamer0.10-ffmpeg gstreamer1.0-libav 
+echo $pswd | sudo -S apt install -y build-essential checkinstall cmake yasm libjpeg-dev libjasper-dev libavcodec-dev libavformat-dev libswscale-dev libdc1394-22-dev libxine2-dev libgstreamer0.10-dev libgstreamer-plugins-base0.10-dev libv4l-dev python-dev python-numpy libtbb-dev libqt4-dev libgtk2.0-dev libfaac-dev libmp3lame-dev libopencore-amrnb-dev libopencore-amrwb-dev libtheora-dev libvorbis-dev libxvidcore-dev x264 v4l-utils gstreamer0.10-ffmpeg gstreamer1.0-libav 
 
 echo "#install some necessary tools"
 echo $pswd | sudo -S apt install -y libboost-all-dev qtcreator fcitx chromium-browser libgoogle-glog-dev libsuitesparse-dev libxmu-dev 
